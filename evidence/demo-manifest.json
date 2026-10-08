@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-07",
+  "skill": {
+    "path": "skills/improve-coverage/SKILL.md",
+    "sha256": "8cd6ccfedb66795b95509f2fcb8a22dfe1b1263f4ee799e07cd788469d57d313"
+  },
+  "interface": {
+    "path": "skills/improve-coverage/agents/openai.yaml",
+    "sha256": "70a4df1ee984748953ccb23608366ddddd2ddf0563ec2a330a28ff09afbcf3c2"
+  },
+  "programs": [
+    {
+      "path": "scripts/record_session.py",
+      "sha256": "88b4d2057892b502edf3976917da6704791d93f113f46026bbef42169399857f"
+    }
+  ],
+  "agent": {
+    "invoked_the_skill": false,
+    "note": "No agent session ran improve-coverage to produce this evidence. The transcript is a worked example of the skill's non-interactive mode, run by hand from a shell on a synthetic repository while this release was being prepared. Its one new test file was written by hand for the example."
+  },
+  "invocation": {
+    "commands": [
+      "cat ../caller-inputs.txt",
+      "git ls-files",
+      "git diff --name-only base",
+      "python3 measure.py shapes.py",
+      "cp ../hand-written/test_triangle.py .",
+      "python3 measure.py shapes.py",
+      "git status --short"
+    ],
+    "interpreter": "Python 3.13.13",
+    "working_directory": "the synthetic repository that scripts/record_session.py builds in a throwaway directory, beside caller-inputs.txt and hand-written/test_triangle.py"
+  },
+  "output": {
+    "path": "evidence/transcripts/worked-example.txt",
+    "sha256": "55030e5dfadddbd9fad66c5263b10d0a29045dd3c7095efeeb005cfc6c7864e3",
+    "edited": false,
+    "transforms": [],
+    "note": "scripts/record_session.py wrote each command line and, from each command's exit status, the exit status line; everything between is the command's output. Nothing was edited."
+  }
+}

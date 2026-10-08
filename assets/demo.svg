@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="960" viewBox="0 0 1280 960" role="img" aria-labelledby="title description">
+  <title id="title">Animated worked example of improve-coverage, run by hand</title>
+  <desc id="description">A terminal shows 7 commands run by hand on a synthetic repository: the caller inputs, the scope from a diff base, a coverage measurement of shapes.py, one added test file, a second measurement, and git status. No agent ran the skill.</desc>
+  <style>
+    .step-1 {
+      opacity: 0;
+      animation: reveal-1 16s infinite;
+    }
+    @keyframes reveal-1 {
+      0%, 6% { opacity: 0; }
+      10%, 94% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    .step-2 {
+      opacity: 0;
+      animation: reveal-2 16s infinite;
+    }
+    @keyframes reveal-2 {
+      0%, 17% { opacity: 0; }
+      21%, 94% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    .step-3 {
+      opacity: 0;
+      animation: reveal-3 16s infinite;
+    }
+    @keyframes reveal-3 {
+      0%, 28% { opacity: 0; }
+      32%, 94% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    .step-4 {
+      opacity: 0;
+      animation: reveal-4 16s infinite;
+    }
+    @keyframes reveal-4 {
+      0%, 40% { opacity: 0; }
+      44%, 94% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    .step-5 {
+      opacity: 0;
+      animation: reveal-5 16s infinite;
+    }
+    @keyframes reveal-5 {
+      0%, 51% { opacity: 0; }
+      55%, 94% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    .step-6 {
+      opacity: 0;
+      animation: reveal-6 16s infinite;
+    }
+    @keyframes reveal-6 {
+      0%, 62% { opacity: 0; }
+      66%, 94% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    .step-7 {
+      opacity: 0;
+      animation: reveal-7 16s infinite;
+    }
+    @keyframes reveal-7 {
+      0%, 74% { opacity: 0; }
+      78%, 94% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .step-1, .step-2, .step-3, .step-4, .step-5, .step-6, .step-7 {
+        opacity: 1;
+        animation: none;
+      }
+    }
+  </style>
+  <rect width="1280" height="960" rx="24" fill="#101418" />
+  <circle cx="40" cy="44" r="9" fill="#ff6b6b" />
+  <circle cx="70" cy="44" r="9" fill="#ffd166" />
+  <circle cx="100" cy="44" r="9" fill="#55d6be" />
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16">
+    <g class="step-1">
+      <text x="40" y="96" fill="#f7fbff" xml:space="preserve">$ cat ../caller-inputs.txt</text>
+      <text x="40" y="120" fill="#a7bac5" xml:space="preserve">scope: diff base &quot;base&quot;, less test files</text>
+      <text x="40" y="144" fill="#a7bac5" xml:space="preserve">coverage_cmd: python3 measure.py &lt;files in scope&gt;</text>
+      <text x="40" y="168" fill="#a7bac5" xml:space="preserve">target: 100% of lines</text>
+      <text x="40" y="192" fill="#a7bac5" xml:space="preserve">commit: no</text>
+      <text x="40" y="216" fill="#55d6be" xml:space="preserve">exit status: 0</text>
+    </g>
+    <g class="step-2">
+      <text x="40" y="250" fill="#f7fbff" xml:space="preserve">$ git ls-files</text>
+      <text x="40" y="274" fill="#a7bac5" xml:space="preserve">measure.py</text>
+      <text x="40" y="298" fill="#a7bac5" xml:space="preserve">shapes.py</text>
+      <text x="40" y="322" fill="#a7bac5" xml:space="preserve">test_shapes.py</text>
+      <text x="40" y="346" fill="#a7bac5" xml:space="preserve">units.py</text>
+      <text x="40" y="370" fill="#55d6be" xml:space="preserve">exit status: 0</text>
+    </g>
+    <g class="step-3">
+      <text x="40" y="404" fill="#f7fbff" xml:space="preserve">$ git diff --name-only base</text>
+      <text x="40" y="428" fill="#a7bac5" xml:space="preserve">shapes.py</text>
+      <text x="40" y="452" fill="#55d6be" xml:space="preserve">exit status: 0</text>
+    </g>
+    <g class="step-4">
+      <text x="40" y="486" fill="#f7fbff" xml:space="preserve">$ python3 measure.py shapes.py</text>
+      <text x="40" y="510" fill="#a7bac5" xml:space="preserve">tests: 1 ran, 0 failed</text>
+      <text x="40" y="534" fill="#a7bac5" xml:space="preserve">shapes.py: 4 of 7 lines ran (57%); not run: 7, 8, 9</text>
+      <text x="40" y="558" fill="#55d6be" xml:space="preserve">exit status: 0</text>
+    </g>
+    <g class="step-5">
+      <text x="40" y="592" fill="#f7fbff" xml:space="preserve">$ cp ../hand-written/test_triangle.py .</text>
+      <text x="40" y="616" fill="#55d6be" xml:space="preserve">exit status: 0</text>
+    </g>
+    <g class="step-6">
+      <text x="40" y="650" fill="#f7fbff" xml:space="preserve">$ python3 measure.py shapes.py</text>
+      <text x="40" y="674" fill="#a7bac5" xml:space="preserve">tests: 3 ran, 0 failed</text>
+      <text x="40" y="698" fill="#55d6be" xml:space="preserve">shapes.py: 7 of 7 lines ran (100%)</text>
+      <text x="40" y="722" fill="#55d6be" xml:space="preserve">exit status: 0</text>
+    </g>
+    <g class="step-7">
+      <text x="40" y="756" fill="#f7fbff" xml:space="preserve">$ git status --short</text>
+      <text x="40" y="780" fill="#a7bac5" xml:space="preserve">?? test_triangle.py</text>
+      <text x="40" y="804" fill="#55d6be" xml:space="preserve">exit status: 0</text>
+    </g>
+  </g>
+  <text x="40" y="932" fill="#a7bac5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15">Run by hand, no agent. From evidence/transcripts/worked-example.txt</text>
+</svg>

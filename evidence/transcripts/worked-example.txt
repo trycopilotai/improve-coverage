@@ -1,0 +1,28 @@
+$ cat ../caller-inputs.txt
+scope: diff base "base", less test files
+coverage_cmd: python3 measure.py <files in scope>
+target: 100% of lines
+commit: no
+exit status: 0
+$ git ls-files
+measure.py
+shapes.py
+test_shapes.py
+units.py
+exit status: 0
+$ git diff --name-only base
+shapes.py
+exit status: 0
+$ python3 measure.py shapes.py
+tests: 1 ran, 0 failed
+shapes.py: 4 of 7 lines ran (57%); not run: 7, 8, 9
+exit status: 0
+$ cp ../hand-written/test_triangle.py .
+exit status: 0
+$ python3 measure.py shapes.py
+tests: 3 ran, 0 failed
+shapes.py: 7 of 7 lines ran (100%)
+exit status: 0
+$ git status --short
+?? test_triangle.py
+exit status: 0
