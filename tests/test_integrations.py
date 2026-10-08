@@ -540,6 +540,23 @@ class RendererTest(unittest.TestCase):
         self.assertIn('"/work/' + "d" * 294 + '...[26 more characters]"', text)
         self.assertNotIn("/h/me", text)
 
+    def test_roots_end_at_brackets_and_keep_the_bracket(self) -> None:
+        scratch = "/private/tmp/claude-1000/-h-me-slug"
+        text = self.render(
+            "claude-code",
+            self.claude_events(
+                {"paths": ["/h/me/fix"], "where": {"root": "/h/me/fix"}},
+                {"note": "(%s) [%s] %s." % (scratch, scratch, scratch)},
+                {"note": "[/h/me/plug]"},
+            ),
+            "--plugin-root", "/h/me/plug",
+        )
+        self.assertIn('{"paths": ["/work"], "where": {"root": "/work"}}', text)
+        self.assertIn('"(/scratch) [/scratch] /scratch."', text)
+        self.assertIn('"[/plugin]"', text)
+        self.assertNotIn("/h/me", text)
+        self.assertNotIn("/private/", text)
+
     def test_codex_commands_keep_exit_status_and_are_cut_consistently(self) -> None:
         long = "x" * 400
         text = self.render(

@@ -26,10 +26,14 @@ import re
 import sys
 
 LIMIT = 300
-# A path or name ends at a separator, a quote, whitespace, closing
-# punctuation, a full stop that ends a sentence, or the end.
-END = r"(?=[/\\\s\"'`),;:]|\.(?![\w-])|$)"
-SCRATCH = re.compile(r"/private/tmp/claude-[0-9]+/[^/\s\"'`]+" + END)
+# A path or name ends at a separator, a quote, whitespace, a closing
+# bracket, a comma, semicolon or colon, a full stop that ends a
+# sentence, or the end.
+STOP = "/\\\\\\s\"'`)\\]},;:"
+END = r"(?=[" + STOP + r"]|\.(?![\w-])|$)"
+# The scratch slug is one path segment; it never takes in the
+# character that ends it, nor a full stop that ends a sentence.
+SCRATCH = re.compile(r"/private/tmp/claude-[0-9]+/[^" + STOP + r"]*[^." + STOP + r"]" + END)
 
 
 def prefix(text: str, path: str, replacement: str) -> str:

@@ -43,11 +43,16 @@ private channel.
   run the fixture's own `measure.py`, which imports and runs
   the fixture's tests. With `RECORD_RAW_DIR` set it also
   writes a copy of the capture into that directory.
+  `scripts/render_invocation.py` reads an agent client's
+  raw JSON-lines output and a prompt file, and prints a
+  transcript to standard output; it writes no file and runs
+  nothing.
   `tests/test_integrations.py` runs `git` against the
   repository root, runs the recorder once with `--print`
   (which writes nothing outside its temporary directory),
-  and loads the two demo scripts to compare the images with
-  the transcript.
+  loads the two demo scripts to compare the images with
+  the transcript, and runs the renderer on small inputs it
+  writes to a temporary directory.
 
 ## What the skill tells an agent to do
 
