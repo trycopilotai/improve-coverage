@@ -1,0 +1,84 @@
+client: Claude Code 2.1.220
+model: claude-sonnet-5
+
+## prompt
+
+Use /improve-coverage to raise test coverage in this repository. The caller's inputs are:
+
+scope: diff base "base", less test files
+coverage_cmd: python3 measure.py <files in scope>
+target: 100% of lines
+commit: no
+
+Stay inside this directory: do not read or write anything outside it.
+
+## tool calls
+
+1. Skill {"args": "scope: diff base \"base\", less test files\ncoverage_cmd: python3 measure.py <files in scope>\ntarget: 100% of lines\ncommit: no", "skill": "improve-coverage:improve-coverage"}
+  status: ok
+2. Bash {"command": "pwd && echo \"---\" && ls -la && echo \"---BRANCHES---\" && git branch -a && echo \"---TAGS---\" && git tag && echo \"---LOG---\" && git log --oneline -20", "description": "Inspect repo structure, branches, tags, and recent commits"}
+  status: ok
+3. Bash {"command": "echo \"=== git diff --name-only base...HEAD ===\" && git diff --name-only base HEAD && echo \"=== git diff --name-status base HEAD ===\" && git diff --name-status base HEAD", "description": "List files changed between base tag and HEAD"}
+  status: ok
+4. Read {"file_path": "/work/measure.py"}
+  status: ok
+5. Read {"file_path": "/work/README.md"}
+  status: ok
+6. Read {"file_path": "/work/ledger/budget.py"}
+  status: ok
+7. Bash {"command": "ls -la ledger tests", "description": "List ledger and tests directory contents"}
+  status: ok
+8. Read {"file_path": "/work/tests/test_budget.py"}
+  status: ok
+9. Read {"file_path": "/work/tests/test_money.py"}
+  status: ok
+10. Read {"file_path": "/work/ledger/money.py"}
+  status: ok
+11. Bash {"command": "python3 measure.py ledger/budget.py", "description": "Measure baseline coverage of ledger/budget.py"}
+  status: ok
+12. Edit {"file_path": "/work/tests/test_budget.py", "new_string": "import unittest\n\nfrom ledger.budget import Budget\n\n\nclass BudgetTest(unittest.TestCase):\n    def test_spend_reduces_remaining(self):\n        budget = Budget({\"food\": 10000})\n        budget.spend(\"food\", 2500)\n        self.assertEqual(budget.remaining(\"food\"), 7500)\n\n    def test_spend_unknown_catego...[2008 more characters]", "old_string": "import unittest\n\nfrom ledger.budget import Budget\n\n\nclass BudgetTest(unittest.TestCase):\n    def test_spend_reduces_remaining(self):\n        budget = Budget({\"food\": 10000})\n        budget.spend(\"food\", 2500)\n        self.assertEqual(budget.remaining(\"food\"), 7500)", "replace_all": false}
+  status: ok
+13. Bash {"command": "python3 measure.py ledger/budget.py", "description": "Re-measure coverage of ledger/budget.py after adding tests"}
+  status: ok
+14. Bash {"command": "python3 -m unittest -v 2>&1 | tail -30 && echo \"---\" && ls -la | grep -iE \"lint|mypy|pyproject|setup.cfg|tox\"", "description": "Run full test suite verbosely and check for lint/type-check config"}
+  status: ok
+15. Agent {"description": "Fresh review of new budget tests", "prompt": "Review test code only (do not edit anything, just report). Repo at /work.\n\nContext: this is a tiny Python ledger package. ledger/budget.py (Read it) defines a Budget class with spend, remaining, over_budget, transfer, report. New tests were just added to tests/test_budget.py (Read it) to raise line ...[1201 more characters]", "run_in_background": false, "subagent_type": "general-purpose"}
+  status: ok
+16. Read (sub-agent) {"file_path": "/work/ledger/budget.py"}
+  status: ok
+17. Read (sub-agent) {"file_path": "/work/ledger/money.py"}
+  status: ok
+18. Read (sub-agent) {"file_path": "/work/tests/test_budget.py"}
+  status: ok
+19. Read (sub-agent) {"file_path": "/work/tests/test_money.py"}
+  status: ok
+20. Read {"file_path": "/work/tests/test_budget.py"}
+  status: ok
+21. Edit {"file_path": "/work/tests/test_budget.py", "new_string": "    def test_over_budget_empty_when_within_limits(self):\n        budget = Budget({\"food\": 1000})\n        budget.spend(\"food\", 500)\n        self.assertEqual(budget.over_budget(), [])\n\n    def test_over_budget_excludes_exactly_zero_remaining(self):\n        budget = Budget({\"food\": 1000})\n        budge...[1855 more characters]", "old_string": "    def test_over_budget_empty_when_within_limits(self):\n        budget = Budget({\"food\": 1000})\n        budget.spend(\"food\", 500)\n        self.assertEqual(budget.over_budget(), [])\n\n    def test_transfer_moves_limit_between_categories(self):\n        budget = Budget({\"food\": 10000, \"fun\": 2000})\n   ...[651 more characters]", "replace_all": false}
+  status: ok
+22. Edit {"file_path": "/work/tests/test_budget.py", "new_string": "    def test_transfer_then_over_budget_reflects_new_limits(self):\n        budget = Budget({\"food\": 1000, \"fun\": 500})\n        budget.transfer(\"fun\", \"food\", 200)\n        budget.spend(\"fun\", 400)\n        self.assertEqual(budget.over_budget(), [\"fun\"])", "old_string": "    def test_transfer_then_over_budget_reflects_new_limits(self):\n        budget = Budget({\"food\": 1000, \"fun\": 500})\n        budget.spend(\"fun\", 500)\n        budget.transfer(\"fun\", \"food\", 200)\n        self.assertEqual(budget.over_budget(), [\"fun\"])", "replace_all": false}
+  status: ok
+23. Bash {"command": "python3 -m unittest -v 2>&1 | tail -25 && echo \"=== coverage ===\" && python3 measure.py ledger/budget.py", "description": "Run full suite and re-measure coverage after adding boundary tests"}
+  status: ok
+24. Bash {"command": "git status --short && echo \"---\" && git diff --stat", "description": "Confirm only the test file changed, uncommitted"}
+  status: ok
+
+## final message
+
+## Summary
+
+**Scope** (diff `base`→`HEAD`, less test files): `ledger/budget.py` — the only production file touched.
+**Coverage command:** `python3 measure.py ledger/budget.py` (this repo's custom trace-based line-coverage script).
+
+| File | Before | After | Tests added | Notes |
+|---|---|---|---|---|
+| `ledger/budget.py` | 51% (15/29 lines) | **100%** (29/29 lines) | 14 | Covered `spend`'s error paths, `over_budget`, `transfer`, `report`, plus boundary cases (exact-zero remaining, same-category transfer, exact-remaining transfer, post-transfer state in `over_budget`/`report`) |
+| **Aggregate (scope)** | 51% | **100%** | 14 | — |
+
+**Gates run:** full `python3 -m unittest` suite (18 tests, all pass). No type-checker or linter is configured in this repo, so that gate was skipped (not applicable, not blocked).
+
+**Review:** `multi-persona-code-review`/`address-comments` aren't installed here, so I ran a fresh general-purpose agent as a substitute reviewer. It found correctness, isolation, and style were solid, but flagged 4 real gaps (branches that were line-covered but not scenario-tested): the `remaining == 0` boundary on `over_budget`, `transfer` with `source == target`, `transfer` followed by `over_budget`/`report` reflecting new limits, and `transfer` at exactly the remaining amount. I added tests for all four; final suite is 18 tests, still 100% lines, no regressions.
+
+**Unreachable code:** none — every line of `ledger/budget.py` is reachable and now exercised, so Step 5 didn't apply.
+
+**Commit:** skipped per `commit: no` — changes are left uncommitted in `tests/test_budget.py` only (84 lines added, no production files touched).

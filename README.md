@@ -5,8 +5,9 @@ choose. It interviews you about the scope, measures
 coverage, sends one agent per uncovered file to write that
 file's tests, and reports the real number. A calling skill
 can pass the scope instead of the interview. The skill is
-one `SKILL.md` and no program, and no agent run of it is
-evidenced here.
+one `SKILL.md` and no program. One agent run of it under
+each client, on one synthetic fixture, is recorded under
+[Agent invocations](#agent-invocations).
 
 Worked example, by hand: shapes.py 57% to 100%, tests only.
 
@@ -31,13 +32,12 @@ skill.
 
 **Not measured, stated up front.**
 
-- No agent invoked the skill to produce the evidence here.
-  The worked example is seven shell commands on a synthetic
+- The worked example is seven shell commands on a synthetic
   repository. Its one new test file was written by hand for
   the example; in a real run an agent writes it.
-- Whether an agent that reads `SKILL.md` follows it (the
-  interview, the fan-out, the tests-only rule, the stop when
-  a caller's input is missing) has not been measured.
+- Whether an agent that reads `SKILL.md` follows the
+  interview, or stops when a caller passes only one of the
+  two inputs, has not been measured.
 - The example covers line coverage of one Python file,
   measured by a stand-in coverage command built on the
   standard library's `trace` module. Branch coverage, the
@@ -203,7 +203,7 @@ fails.
 
 ```sh
 set -eu
-release=v0.1.0
+release=v0.1.1
 install_target="$HOME/.claude/skills/improve-coverage"
 install_parent="$(dirname "$install_target")"
 mkdir -p "$install_parent"
@@ -240,7 +240,7 @@ the block above is `install_target`.
 
 ```sh
 set -eu
-release=v0.1.0
+release=v0.1.1
 install_target="$HOME/.agents/skills/improve-coverage"
 install_parent="$(dirname "$install_target")"
 mkdir -p "$install_parent"
@@ -318,6 +318,53 @@ demo images to each other.
 example. It counts lines that start a bytecode instruction
 as executable, so its counts can differ from a coverage
 tool's. It reports lines only, not branches.
+
+### Agent invocations
+
+Each client was started once, with the v0.1.0 skill text
+(unchanged in this release), on one synthetic fixture: a
+small Python package whose `ledger/budget.py` gained three
+untested methods after the tag `base`, a passing unittest
+suite, and a line-coverage command built on the standard
+library's `trace` module, like the worked example's. The
+prompt passed `scope` as that diff base and `coverage_cmd`,
+so both runs used non-interactive mode. No review skill or
+commit planner was installed. This is one run per client,
+not a benchmark.
+
+- [`evidence/transcripts/2026-10-08-claude-code-invocation.txt`](evidence/transcripts/2026-10-08-claude-code-invocation.txt):
+  Claude Code 2.1.220, invoked with `/improve-coverage`. It
+  loaded the skill and raised `ledger/budget.py` from 15 of
+  29 lines (51%) to 29 of 29 (100%) with tests only, left
+  uncommitted. It wrote the tests itself instead of
+  dispatching one agent for the file as Step 3 says. It
+  named `multi-persona-code-review` and `address-comments`
+  as not installed and reviewed with one fresh agent.
+- [`evidence/transcripts/2026-10-08-codex-invocation.txt`](evidence/transcripts/2026-10-08-codex-invocation.txt):
+  Codex 0.146.0, invoked with `$improve-coverage`. It read
+  the skill, sent one sub-agent to cover the file and a
+  fresh one to review, and reached the same 29 of 29 lines
+  with tests only, left uncommitted. Step 6 asks the summary
+  to name a missing review skill; a progress message named
+  both, but its final summary does not. The
+  `codex exec --json` stream it is rendered from does not
+  record the sub-agents' own commands or edits.
+
+Neither run exercised Step 5 (no unreachable line), branch
+coverage (the command reports lines only), a type-checker or
+linter (none configured), or Steps 7 and 8 (`commit: no`).
+
+`scripts/render_invocation.py` wrote both from the clients'
+raw output, which is not committed. It keeps each tool
+call's name, arguments and status, not the tool's output,
+and cuts any argument string longer than 300 characters,
+marking the cut `...[N more characters]`. Its only other
+edits are the ones `evidence/demo-manifest.json` declares
+for each invocation: `replace-plugin-root`,
+`replace-capture-root`, `replace-scratch-root`,
+`replace-home` and `replace-hostname`. The manifest also
+records each model, prompt and outcome and both files'
+SHA-256.
 
 ## Contributing
 

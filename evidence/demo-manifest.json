@@ -38,5 +38,91 @@
     "edited": false,
     "transforms": [],
     "note": "scripts/record_session.py wrote each command line and, from each command's exit status, the exit status line; everything between is the command's output. Nothing was edited."
-  }
+  },
+  "invocations": [
+    {
+      "product": "Claude Code",
+      "version": "2.1.220",
+      "model": "claude-sonnet-5",
+      "skill_source": "--plugin-dir pointing at a clone of this repository at tag v0.1.0; skills/improve-coverage/ is byte-identical in this release",
+      "invocation": "/improve-coverage",
+      "prompt": "Use /improve-coverage to raise test coverage in this repository. The caller's inputs are:\n\nscope: diff base \"base\", less test files\ncoverage_cmd: python3 measure.py <files in scope>\ntarget: 100% of lines\ncommit: no\n\nStay inside this directory: do not read or write anything outside it.",
+      "fixture": "A synthetic git repository holding a small Python package, ledger/ (money.py and budget.py), a passing unittest suite under tests/, and measure.py, a line-coverage command built on the standard library's trace module. The tag base marks the first commit; the second adds three methods and an amount check to ledger/budget.py without tests, so ledger/budget.py is the only production file the diff from base lists, measured at 15 of 29 lines (51%). No type-checker or linter is configured. multi-persona-code-review, address-comments and plan-commits were not installed. No remote.",
+      "date": "2026-10-08",
+      "transcript": {
+        "path": "evidence/transcripts/2026-10-08-claude-code-invocation.txt",
+        "sha256": "e83f41031fcb6b16c17d88b1a9d37eafebb9693ae822cece20972774a63aaf71"
+      },
+      "raw_output_sha256": "224ab47d5d857b83843e7613f5138f1f790e358a22b379b13f68589dd078e8b3",
+      "renderer": "scripts/render_invocation.py",
+      "transforms": [
+        {
+          "name": "replace-plugin-root",
+          "what": "The --plugin-dir clone path would be replaced with /plugin; it appears in the raw output only outside the rendered fields."
+        },
+        {
+          "name": "replace-capture-root",
+          "what": "The fixture's absolute path was replaced with /work."
+        },
+        {
+          "name": "replace-scratch-root",
+          "what": "A client scratch directory prefix /private/tmp/claude-<uid>/<slug> would be replaced with /scratch; it appears in the raw output only outside the rendered fields."
+        },
+        {
+          "name": "replace-home",
+          "what": "The home directory would be replaced with ~; after the replacements above, the rendered transcript contained none."
+        },
+        {
+          "name": "replace-hostname",
+          "what": "The recording machine's hostname would be replaced with host; the rendered transcript contained none."
+        }
+      ],
+      "rendering": "Besides the transforms, scripts/render_invocation.py cuts every tool-call argument string longer than 300 characters and marks the cut as ...[N more characters]. It writes only each call's name, arguments and status, not tool output, and marks a call a Claude Code sub-agent made as (sub-agent).",
+      "invoked_the_skill": true,
+      "outcome": "Loaded the skill (Skill improve-coverage:improve-coverage) in non-interactive mode and raised ledger/budget.py from 15 of 29 lines (51%) to 29 of 29 (100%) by adding 14 tests to tests/test_budget.py, tests only and uncommitted; it wrote the tests itself rather than dispatching a per-file agent, said no type-checker or linter was configured, named multi-persona-code-review and address-comments as not installed, reviewed with one fresh general-purpose agent, and added four tests for the gaps that agent flagged."
+    },
+    {
+      "product": "Codex",
+      "version": "0.146.0",
+      "model": "gpt-5.6-sol",
+      "model_note": "The codex exec --json stream does not name the model; this is the model in the client's own session record for the run.",
+      "skill_source": "a copy of skills/improve-coverage/ at tag v0.1.0, committed at .agents/skills/improve-coverage/ in the fixture",
+      "invocation": "$improve-coverage",
+      "prompt": "Use $improve-coverage to raise test coverage in this repository. The caller's inputs are:\n\nscope: diff base \"base\", less test files\ncoverage_cmd: python3 measure.py <files in scope>\ntarget: 100% of lines\ncommit: no\n\nStay inside this directory: do not read or write anything outside it.",
+      "fixture": "A synthetic git repository holding a small Python package, ledger/ (money.py and budget.py), a passing unittest suite under tests/, and measure.py, a line-coverage command built on the standard library's trace module. The tag base marks the first commit; the second adds three methods and an amount check to ledger/budget.py without tests, so ledger/budget.py is the only production file the diff from base lists, measured at 15 of 29 lines (51%). No type-checker or linter is configured. multi-persona-code-review, address-comments and plan-commits were not installed. No remote. The skill copy at .agents/skills/improve-coverage/ was committed after base, so the diff from base also lists its two files; the agent left them out of scope as skill files, not production code.",
+      "date": "2026-10-08",
+      "transcript": {
+        "path": "evidence/transcripts/2026-10-08-codex-invocation.txt",
+        "sha256": "338362d5610d649b70478e82934e39854a5f53fd401a1b7d56dfae281342306f"
+      },
+      "raw_output_sha256": "ff87621e2b3c72f2314affe5d3e7ae0b97b67363861ff9ab2cb11802408b7d48",
+      "renderer": "scripts/render_invocation.py",
+      "transforms": [
+        {
+          "name": "replace-plugin-root",
+          "what": "The fixture's absolute .agents/skills/improve-coverage path would be replaced with /plugin; Codex read the skill by a relative path, so nothing matched."
+        },
+        {
+          "name": "replace-capture-root",
+          "what": "The fixture's absolute path was replaced with /work."
+        },
+        {
+          "name": "replace-scratch-root",
+          "what": "A client scratch directory prefix /private/tmp/claude-<uid>/<slug> would be replaced with /scratch; the raw output contained none."
+        },
+        {
+          "name": "replace-home",
+          "what": "The home directory would be replaced with ~; after the replacements above, the rendered transcript contained none."
+        },
+        {
+          "name": "replace-hostname",
+          "what": "The recording machine's hostname would be replaced with host; the rendered transcript contained none."
+        }
+      ],
+      "rendering": "Besides the transforms, scripts/render_invocation.py cuts every tool-call argument string longer than 300 characters and marks the cut as ...[N more characters]. It writes only each call's name, arguments and status, not tool output, and marks a call a Claude Code sub-agent made as (sub-agent).",
+      "invoked_the_skill": true,
+      "outcome": "Read .agents/skills/improve-coverage/SKILL.md and, in non-interactive mode, raised ledger/budget.py from 15 of 29 lines (51%) to 29 of 29 (100%) with 9 tests in tests/test_budget.py, tests only and uncommitted; it dispatched one sub-agent for the one uncovered file and a fresh sub-agent to review, which found nothing. It named multi-persona-code-review and address-comments as not installed in a progress message, but its final summary does not name them.",
+      "stream_note": "The codex exec --json stream records the main thread's shell commands, its two waits on sub-agents and its messages. It does not record the two spawn calls, the sub-agents' own commands or edits (the test file was written by the per-file sub-agent), or one python3 -m py_compile command that the sandbox stopped from writing Python's bytecode cache outside the workspace; the client's session records hold them and are not committed."
+    }
+  ]
 }
