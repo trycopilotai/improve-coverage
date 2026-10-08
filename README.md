@@ -203,7 +203,7 @@ fails.
 
 ```sh
 set -eu
-release=v0.1.4
+release=v0.1.5
 install_target="$HOME/.claude/skills/improve-coverage"
 install_parent="$(dirname "$install_target")"
 mkdir -p "$install_parent"
@@ -240,7 +240,7 @@ the block above is `install_target`.
 
 ```sh
 set -eu
-release=v0.1.4
+release=v0.1.5
 install_target="$HOME/.agents/skills/improve-coverage"
 install_parent="$(dirname "$install_target")"
 mkdir -p "$install_parent"
@@ -357,9 +357,13 @@ coverage (the command reports lines only), a type-checker or
 linter (none configured), or Steps 7 and 8 (`commit: no`).
 
 `scripts/render_invocation.py` wrote both from the clients'
-raw output, which is not committed. It keeps each tool
-call's name, arguments and status, not the tool's output,
-writes each call's arguments as JSON with sorted keys,
+raw output, which is not committed. For Claude Code it
+keeps each tool call's name, arguments and status, not the
+tool's output. For Codex it keeps each command with its
+status and exit code, writes any other completed item except
+reasoning as its whole item object (type, ids and fields),
+and takes the last agent message as the final message. It
+writes arguments and item objects as JSON with sorted keys,
 cuts any argument string longer than 300 characters,
 marking the cut `...[N more characters]`, and marks a call
 a Claude Code sub-agent made `(sub-agent)`. Its

@@ -10,7 +10,10 @@ re-serialised as JSON with sorted keys, each argument string cut
 at LIMIT characters after the replacements below), each call's
 status where the raw output records it, and the final message
 with the same replacements applied. A call a Claude Code sub-agent
-made is marked "(sub-agent)". The replacements, in this order, each applied to a
+made is marked "(sub-agent)". For Codex, a command is written
+with its status and exit code, any other completed item except
+reasoning as its whole item object, and the last agent message
+is the final message. The replacements, in this order, each applied to a
 whole path prefix and never inside a longer name: each
 --plugin-root (the directory the client loaded the skill
 from) becomes /plugin, the fixture's absolute path /work, a
