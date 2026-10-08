@@ -203,7 +203,7 @@ fails.
 
 ```sh
 set -eu
-release=v0.1.3
+release=v0.1.4
 install_target="$HOME/.claude/skills/improve-coverage"
 install_parent="$(dirname "$install_target")"
 mkdir -p "$install_parent"
@@ -240,7 +240,7 @@ the block above is `install_target`.
 
 ```sh
 set -eu
-release=v0.1.3
+release=v0.1.4
 install_target="$HOME/.agents/skills/improve-coverage"
 install_parent="$(dirname "$install_target")"
 mkdir -p "$install_parent"
@@ -328,9 +328,11 @@ untested methods after the tag `base`, a passing unittest
 suite, and a line-coverage command built on the standard
 library's `trace` module, like the worked example's. The
 prompt passed `scope` as that diff base and `coverage_cmd`,
-so both runs used non-interactive mode. No review skill or
-commit planner was installed. This is one run per client,
-not a benchmark.
+so both runs used non-interactive mode. Neither
+`multi-persona-code-review` nor `address-comments` nor a
+commit planner was installed; Claude Code's session listed
+its own built-in `code-review` skill. This is one run per
+client, not a benchmark.
 
 - [`evidence/transcripts/2026-10-08-claude-code-invocation.txt`](evidence/transcripts/2026-10-08-claude-code-invocation.txt):
   Claude Code 2.1.220, invoked with `/improve-coverage`. It
@@ -357,12 +359,15 @@ linter (none configured), or Steps 7 and 8 (`commit: no`).
 `scripts/render_invocation.py` wrote both from the clients'
 raw output, which is not committed. It keeps each tool
 call's name, arguments and status, not the tool's output,
-and cuts any argument string longer than 300 characters,
-marking the cut `...[N more characters]`. Its only other
-edits are the ones `evidence/demo-manifest.json` declares
-for each invocation: `replace-plugin-root`,
-`replace-capture-root`, `replace-scratch-root`,
-`replace-home` and `replace-hostname`. The manifest also
+writes each call's arguments as JSON with sorted keys,
+cuts any argument string longer than 300 characters,
+marking the cut `...[N more characters]`, and marks a call
+a Claude Code sub-agent made `(sub-agent)`. Its
+replacements, applied to the final message as well, are
+the ones `evidence/demo-manifest.json` declares for each
+invocation: `replace-plugin-root`, `replace-capture-root`,
+`replace-scratch-root`, `replace-home` and
+`replace-hostname`. The manifest also
 records each model, prompt and outcome and both files'
 SHA-256.
 
