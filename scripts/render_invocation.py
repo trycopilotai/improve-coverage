@@ -5,11 +5,12 @@
         --prompt prompt.txt --root <fixture> --plugin-root <clone> \
         --home <home> --hostname <name> raw.jsonl > transcript.txt
 
-Writes the prompt, every tool call (name and arguments, each
-argument string cut at LIMIT characters after the edits below), each call's status
-where the raw output records it, and the final message
-verbatim. A call a Claude Code sub-agent made is marked
-"(sub-agent)". The only edits, in this order, each applied to a
+Writes the prompt, every tool call (its name, and its arguments
+re-serialised as JSON with sorted keys, each argument string cut
+at LIMIT characters after the replacements below), each call's
+status where the raw output records it, and the final message
+with the same replacements applied. A call a Claude Code sub-agent
+made is marked "(sub-agent)". The replacements, in this order, each applied to a
 whole path prefix and never inside a longer name: each
 --plugin-root (the directory the client loaded the skill
 from) becomes /plugin, the fixture's absolute path /work, a
