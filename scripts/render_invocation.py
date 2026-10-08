@@ -5,21 +5,27 @@
         --prompt prompt.txt --root <fixture> --plugin-root <clone> \
         --home <home> --hostname <name> raw.jsonl > transcript.txt
 
-Writes the prompt, every tool call (its name, and its arguments
-re-serialised as JSON with sorted keys, each argument string cut
-at LIMIT characters after the replacements below), each call's
-status where the raw output records it, and the final message
-with the same replacements applied. A call a Claude Code sub-agent
-made is marked "(sub-agent)". For Codex, a command is written
-with its status and exit code, any other completed item except
-reasoning as its whole item object, and the last agent message
-is the final message. The replacements, in this order, each applied to a
-whole path prefix and never inside a longer name: each
---plugin-root (the directory the client loaded the skill
-from) becomes /plugin, the fixture's absolute path /work, a
-client scratch directory /private/tmp/claude-<uid>/<slug>
-/scratch, the home directory ~, and each --hostname host.
-Standard library only; output depends only on the inputs.
+Writes a header, the prompt, a numbered list of tool calls and
+the final message, and no tool output. Claude Code: the header
+is the client version and model; each call is its name (with
+"(sub-agent)" when a sub-agent made it), its input, and ok,
+error or unknown from the matching result; the final message is
+the result text. Codex: the header is "client: Codex"; each
+completed command is its command string with status and exit
+code, each other completed item except reasoning and agent
+messages is its type and the whole item; the final message is
+the last agent message. Inputs and items are written as JSON
+with sorted keys. In that JSON every string value, ids and
+metadata included, gets the replacements and is then cut at
+LIMIT characters. The replacements, in this order, each applied
+to a whole path prefix or name: each --plugin-root becomes
+/plugin, the fixture's absolute path /work, a client scratch
+directory /private/tmp/claude-<uid>/<slug> /scratch, the home
+directory ~, and each --hostname host. They are applied once
+more to the whole output, prompt and final message included.
+The prompt's trailing newlines are dropped and a missing final
+message is written as "(none)"; nothing else is changed. Standard library only; output depends
+only on the inputs.
 """
 
 from __future__ import annotations

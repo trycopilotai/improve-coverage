@@ -203,7 +203,7 @@ fails.
 
 ```sh
 set -eu
-release=v0.1.5
+release=v0.1.6
 install_target="$HOME/.claude/skills/improve-coverage"
 install_parent="$(dirname "$install_target")"
 mkdir -p "$install_parent"
@@ -240,7 +240,7 @@ the block above is `install_target`.
 
 ```sh
 set -eu
-release=v0.1.5
+release=v0.1.6
 install_target="$HOME/.agents/skills/improve-coverage"
 install_parent="$(dirname "$install_target")"
 mkdir -p "$install_parent"
@@ -357,23 +357,30 @@ coverage (the command reports lines only), a type-checker or
 linter (none configured), or Steps 7 and 8 (`commit: no`).
 
 `scripts/render_invocation.py` wrote both from the clients'
-raw output, which is not committed. For Claude Code it
-keeps each tool call's name, arguments and status, not the
-tool's output. For Codex it keeps each command with its
-status and exit code, writes any other completed item except
-reasoning as its whole item object (type, ids and fields),
-and takes the last agent message as the final message. It
-writes arguments and item objects as JSON with sorted keys,
-cuts any argument string longer than 300 characters,
-marking the cut `...[N more characters]`, and marks a call
-a Claude Code sub-agent made `(sub-agent)`. Its
-replacements, applied to the final message as well, are
-the ones `evidence/demo-manifest.json` declares for each
-invocation: `replace-plugin-root`, `replace-capture-root`,
-`replace-scratch-root`, `replace-home` and
-`replace-hostname`. The manifest also
-records each model, prompt and outcome and both files'
-SHA-256.
+raw output, which is not committed. It writes a header, the
+prompt, a numbered list of tool calls and the final message,
+and no tool output. For Claude Code the header is the client
+version and model; each call is its name (with
+`(sub-agent)` when a sub-agent made it), its input, and `ok`,
+`error` or `unknown` from the matching result; the final
+message is the result text. For Codex the header is
+`client: Codex`; each completed command is its command
+string with its status and exit code, each other completed
+item except reasoning and agent messages is its type and the
+whole item; the final message is the last agent message.
+Inputs and items are written as JSON with sorted keys. In
+that JSON every string value, ids and metadata included, has
+the replacements applied and is then cut if longer than 300
+characters, marking the cut `...[N more characters]`. The
+replacements are the ones `evidence/demo-manifest.json`
+declares for each invocation: `replace-plugin-root`,
+`replace-capture-root`, `replace-scratch-root`,
+`replace-home` and `replace-hostname`; they are applied once
+more to the whole output, prompt and final message included.
+The prompt's trailing newlines are dropped and a missing
+final message is written as `(none)`; nothing else is
+changed. The manifest also records each
+model, prompt and outcome and both files' SHA-256.
 
 ## Contributing
 
