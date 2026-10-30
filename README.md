@@ -1,17 +1,23 @@
 # improve-coverage
 
 An agent skill that raises test coverage on a scope you
-choose. It interviews you about the scope, measures
-coverage, sends one agent per uncovered file to write that
-file's tests, and reports the real number. A calling skill
-can pass the scope instead of the interview. The skill is
-one `SKILL.md` and no program. One agent run of it under
-each client, on one synthetic fixture, is recorded under
-[Agent invocations](#agent-invocations).
+choose.
+
+---
 
 [![auto-lint-pr](https://github.com/trycopilotai/improve-coverage/actions/workflows/auto-lint-pr.yml/badge.svg)](https://github.com/trycopilotai/improve-coverage/actions/workflows/auto-lint-pr.yml)
 [![check](https://github.com/trycopilotai/improve-coverage/actions/workflows/check.yml/badge.svg)](https://github.com/trycopilotai/improve-coverage/actions/workflows/check.yml)
 [![lint](https://github.com/trycopilotai/improve-coverage/actions/workflows/lint.yml/badge.svg)](https://github.com/trycopilotai/improve-coverage/actions/workflows/lint.yml)
+
+---
+
+It interviews you about the scope, measures coverage, sends
+one agent per uncovered file to write that file's tests, and
+reports the real number. A calling skill can pass the scope
+instead of the interview. The skill is one `SKILL.md` and no
+program. One agent run of it under each client, on one
+synthetic fixture, is recorded under
+[Agent invocations](#agent-invocations).
 
 Worked example, by hand: shapes.py 57% to 100%, tests only.
 
