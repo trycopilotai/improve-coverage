@@ -9,6 +9,10 @@ one `SKILL.md` and no program. One agent run of it under
 each client, on one synthetic fixture, is recorded under
 [Agent invocations](#agent-invocations).
 
+[![auto-lint-pr](https://github.com/trycopilotai/improve-coverage/actions/workflows/auto-lint-pr.yml/badge.svg)](https://github.com/trycopilotai/improve-coverage/actions/workflows/auto-lint-pr.yml)
+[![check](https://github.com/trycopilotai/improve-coverage/actions/workflows/check.yml/badge.svg)](https://github.com/trycopilotai/improve-coverage/actions/workflows/check.yml)
+[![lint](https://github.com/trycopilotai/improve-coverage/actions/workflows/lint.yml/badge.svg)](https://github.com/trycopilotai/improve-coverage/actions/workflows/lint.yml)
+
 Worked example, by hand: shapes.py 57% to 100%, tests only.
 
 <picture>
