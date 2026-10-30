@@ -20,9 +20,9 @@ private channel.
 - **Prompt content that redirects an agent.** `SKILL.md` is
   an instruction set an agent may follow. Text in it that
   makes an agent send data to a place the operator did not
-  name, or act outside the repository and scope it was
-  given in ways the next section does not already state, is
-  a valid report.
+  name, or act outside the repository and scope it was given
+  in ways the next section does not already state, is a
+  valid report.
 - **The install blocks.** The two README blocks run
   `mkdir -p`, `mktemp -d`, `git clone`, `cp`, `mv` and
   `rm -rf`, all inside one skills directory under `$HOME`. A
@@ -39,19 +39,18 @@ private channel.
   repository in a temporary directory, writes a small
   `python3` launcher beside it, runs the commands listed in
   `evidence/demo-manifest.json` there through `sh`, and
-  rewrites the transcript and the manifest. The commands
-  run the fixture's own `measure.py`, which imports and runs
-  the fixture's tests. With `RECORD_RAW_DIR` set it also
-  writes a copy of the capture into that directory.
-  `scripts/render_invocation.py` reads an agent client's
-  raw JSON-lines output and a prompt file, and prints a
+  rewrites the transcript and the manifest. The commands run
+  the fixture's own `measure.py`, which imports and runs the
+  fixture's tests. With `RECORD_RAW_DIR` set it also writes
+  a copy of the capture into that directory.
+  `scripts/render_invocation.py` reads an agent client's raw
+  JSON-lines output and a prompt file, and prints a
   transcript to standard output; it writes no file and runs
-  nothing.
-  `tests/test_integrations.py` runs `git` against the
-  repository root, runs the recorder once with `--print`
+  nothing. `tests/test_integrations.py` runs `git` against
+  the repository root, runs the recorder once with `--print`
   (which writes nothing outside its temporary directory),
-  loads the two demo scripts to compare the images with
-  the transcript, and runs the renderer on small inputs it
+  loads the two demo scripts to compare the images with the
+  transcript, and runs the renderer on small inputs it
   writes to a temporary directory.
 
 ## What the skill tells an agent to do
@@ -59,11 +58,11 @@ private channel.
 These are properties of the text, stated so you can decide
 whether to use it. They are known limits, not findings:
 
-- It tells the agent to run the repository's test,
-  coverage, type-check and lint commands, and to dispatch
-  one subagent per uncovered file, concurrently, each of
-  which runs scoped coverage commands too. Those commands
-  run with whatever permissions the host gives the agent.
+- It tells the agent to run the repository's test, coverage,
+  type-check and lint commands, and to dispatch one subagent
+  per uncovered file, concurrently, each of which runs
+  scoped coverage commands too. Those commands run with
+  whatever permissions the host gives the agent.
 - When a coverage provider does not work, Step 2 tells the
   agent to install a source-instrumenting one transiently,
   or to run under another runtime version. That installs
@@ -73,12 +72,12 @@ whether to use it. They are known limits, not findings:
   interactive mode it allows an implementation change only
   with the operator's sign-off on that specific change, and
   Step 5 allows annotations, coverage-ignore directives or a
-  refactor in production files when the operator chose
-  that. In non-interactive mode it tells the agent not to
-  edit production files at all.
+  refactor in production files when the operator chose that.
+  In non-interactive mode it tells the agent not to edit
+  production files at all.
 - It tells the agent to commit (Steps 7 and 8). The
-  interview asks whether new test files may be committed;
-  in non-interactive mode the agent commits only when the
+  interview asks whether new test files may be committed; in
+  non-interactive mode the agent commits only when the
   caller's `commit` input allows it. It tells the agent not
   to push unless the operator authorized a push.
 - It tells the agent to record the run in the host's private

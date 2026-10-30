@@ -14,9 +14,9 @@ That runs `tests/test_integrations.py`. It needs `python3`
 with nothing outside the standard library, `git`, a POSIX
 `sh` with `cat` and `cp` (the worked example's commands),
 and a real clone with its history and tags, because it reads
-`git log` and the release tag. It records the worked
-example again in a temporary directory and compares the
-result with the committed transcript byte for byte.
+`git log` and the release tag. It records the worked example
+again in a temporary directory and compares the result with
+the committed transcript byte for byte.
 
 **The suite pins prose.** These will fail on an
 innocent-looking edit:
@@ -51,9 +51,9 @@ the synthetic repository in a throwaway directory, runs the
 commands listed in the manifest, writes the transcript, and
 rewrites the manifest's hashes, date and interpreter. If a
 command exits non-zero it rewrites neither file and exits 1.
-It needs `sh`, `cat`, `cp`, `git` and `python3`. `make demo` rebuilds
-the two images from the transcript. `make assets` rebuilds
-the social preview and needs Chrome or Chromium;
+It needs `sh`, `cat`, `cp`, `git` and `python3`. `make demo`
+rebuilds the two images from the transcript. `make assets`
+rebuilds the social preview and needs Chrome or Chromium;
 `make asset-check` does not.
 
 ## What is most useful
