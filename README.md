@@ -25,7 +25,8 @@ Worked example, by hand: shapes.py 57% to 100%, tests only.
 
 The demo is reconstructed from
 [`evidence/transcripts/worked-example.txt`](evidence/transcripts/worked-example.txt),
-which [`scripts/record_session.py`](scripts/record_session.py)
+which
+[`scripts/record_session.py`](scripts/record_session.py)
 recorded. It shows a person following the skill's
 non-interactive mode from a shell, not an agent running the
 skill.
@@ -56,22 +57,22 @@ the untouched `units.py`; the repository's coverage command
 reports that 4 of 7 lines of `shapes.py` ran (57%) and lists
 the three that did not; one test file is copied in; the same
 command reports 7 of 7 (100%); and `git status --short`
-shows only the new test file. The commands stand in for
-what the skill asks an agent to do in non-interactive mode:
-take the caller's scope, measure it (Step 2), add tests for
-the uncovered lines (Step 3) and measure again, without
-touching production code.
+shows only the new test file. The commands stand in for what
+the skill asks an agent to do in non-interactive mode: take
+the caller's scope, measure it (Step 2), add tests for the
+uncovered lines (Step 3) and measure again, without touching
+production code.
 
 ## What is in it
 
 [`skills/improve-coverage/SKILL.md`](skills/improve-coverage/SKILL.md)
 is the skill. In order:
 
-- **Core principles**: interview until the scope is
-  settled, write test code only, and work toward 100%.
+- **Core principles**: interview until the scope is settled,
+  write test code only, and work toward 100%.
 - **Non-interactive mode**: how a calling skill passes the
-  scope and the coverage command so the interview is
-  skipped (see below).
+  scope and the coverage command so the interview is skipped
+  (see below).
 - **Steps 1 to 9**: the scope interview, an honest
   measurement, one agent per uncovered file, a full-suite
   type-check and lint pass, handling of code no test can
@@ -93,9 +94,9 @@ pass `target`, `exclusions` and `commit`. The interview is
 then skipped. If only one of `scope` and `coverage_cmd` is
 passed, or the scope is empty, `SKILL.md` tells the agent to
 stop and say which input is missing, without starting the
-interview. The inputs are free text in the caller's
-request; `SKILL.md` shows an example, and the worked example
-below uses one.
+interview. The inputs are free text in the caller's request;
+`SKILL.md` shows an example, and the worked example below
+uses one.
 
 In this mode `SKILL.md` tells the agent not to edit
 production files for any reason, comments and
@@ -106,29 +107,29 @@ table to the caller.
 `swe-day`
 ([trycopilotai/swe-day](https://github.com/trycopilotai/swe-day))
 is the caller this mode was added for: at its step 10 it
-runs this skill on the production code changed that day.
-At its v0.1.9, swe-day's step 10 text still says to
-interview the operator about scope; it does not yet pass
-the inputs above.
+runs this skill on the production code changed that day. At
+its v0.1.9, swe-day's step 10 text still says to interview
+the operator about scope; it does not yet pass the inputs
+above.
 
 ## Not included
 
 The skill names three other skills from the same series.
 None ships here, and nothing in `SKILL.md` checks whether
 one is installed. They are being released at the same time
-as this one, so a repository named here may not exist
-until they are:
+as this one, so a repository named here may not exist until
+they are:
 
 - `multi-persona-code-review`, published as
   `trycopilotai/multi-persona-code-review`, is a code review
-  that writes its findings into the source as review
-  markers (Step 6).
+  that writes its findings into the source as review markers
+  (Step 6).
 - `address-comments`, published as
   `trycopilotai/address-comments`, resolves those markers
   (Step 6).
 - `plan-commits`, published as `trycopilotai/plan-commits`
-  and called as `planCommits()`, is a commit planner
-  (Step 7).
+  and called as `planCommits()`, is a commit planner (Step
+  7).
 
 When the host has no review skill at all, `SKILL.md` tells
 the agent to review the new tests with a fresh agent anyway
@@ -139,8 +140,8 @@ the host has a commit planner; it does not say what to do
 without one.
 
 `swe-day`, published as `trycopilotai/swe-day`, calls this
-skill. This skill does not call it, and nothing changes
-when it is missing.
+skill. This skill does not call it, and nothing changes when
+it is missing.
 
 `SKILL.md` also expects things the repository being worked
 on, or the agent host, provides:
@@ -168,10 +169,10 @@ release:
 - the "Non-interactive mode" section was added, and lines
   that point at it were added to the description, the
   introduction, the first two principles and Step 1;
-- Step 6 named the review skills by their private
-  repository paths. It now names
-  `multi-persona-code-review` and `address-comments`, says
-  neither ships here, and says what to do without them;
+- Step 6 named the review skills by their private repository
+  paths. It now names `multi-persona-code-review` and
+  `address-comments`, says neither ships here, and says what
+  to do without them;
 - Step 7 named the commit planner for one private set of
   repositories. It now names `plan-commits`, called as
   `planCommits()`;
@@ -190,9 +191,9 @@ Read
 before you install it. It tells an agent to run your test
 and coverage commands, to dispatch other agents, to write
 test files, and, when you allow it, to commit.
-[`SECURITY.md`](SECURITY.md) lists what it tells an agent
-to do. Both installs below are pinned to a tag rather than
-to `main`.
+[`SECURITY.md`](SECURITY.md) lists what it tells an agent to
+do. Both installs below are pinned to a tag rather than to
+`main`.
 
 ### Claude Code
 
@@ -302,17 +303,17 @@ The fixture's files, including the hand-written
 `test_triangle.py`, are in the script's source. The manifest
 records the SHA-256 of `SKILL.md`, of `agents/openai.yaml`,
 of the script and of the transcript, the commands, the
-interpreter and the date, and says that no agent invoked
-the skill.
+interpreter and the date, and says that no agent invoked the
+skill.
 
 This is evidence that the worked example's commands print
-what the transcript shows. It is not evidence that the
-skill works.
+what the transcript shows. It is not evidence that the skill
+works.
 
-`make check` runs a suite that records the example again
-and compares it with the transcript byte for byte, and ties
-this file, both plugin manifests, the transcript and the
-demo images to each other.
+`make check` runs a suite that records the example again and
+compares it with the transcript byte for byte, and ties this
+file, both plugin manifests, the transcript and the demo
+images to each other.
 
 **Known limits.** `measure.py` is a stand-in written for the
 example. It counts lines that start a bytecode instruction
@@ -360,27 +361,27 @@ linter (none configured), or Steps 7 and 8 (`commit: no`).
 raw output, which is not committed. It writes a header, the
 prompt, a numbered list of tool calls and the final message,
 and no tool output. For Claude Code the header is the client
-version and model; each call is its name (with
-`(sub-agent)` when a sub-agent made it), its input, and `ok`,
-`error` or `unknown` from the matching result; the final
-message is the result text. For Codex the header is
-`client: Codex`; each completed command is its command
-string with its status and exit code, each other completed
-item except reasoning and agent messages is its type and the
-whole item; the final message is the last agent message.
-Inputs and items are written as JSON with sorted keys. In
-that JSON every string value, ids and metadata included, has
-the replacements applied and is then cut if longer than 300
-characters, marking the cut `...[N more characters]`. The
-replacements are the ones `evidence/demo-manifest.json`
-declares for each invocation: `replace-plugin-root`,
-`replace-capture-root`, `replace-scratch-root`,
-`replace-home` and `replace-hostname`; they are applied once
-more to the whole output, prompt and final message included.
-The prompt's trailing newlines are dropped and a missing
-final message is written as `(none)`; nothing else is
-changed. The manifest also records each
-model, prompt and outcome and both files' SHA-256.
+version and model; each call is its name (with `(sub-agent)`
+when a sub-agent made it), its input, and `ok`, `error` or
+`unknown` from the matching result; the final message is the
+result text. For Codex the header is `client: Codex`; each
+completed command is its command string with its status and
+exit code, each other completed item except reasoning and
+agent messages is its type and the whole item; the final
+message is the last agent message. Inputs and items are
+written as JSON with sorted keys. In that JSON every string
+value, ids and metadata included, has the replacements
+applied and is then cut if longer than 300 characters,
+marking the cut `...[N more characters]`. The replacements
+are the ones `evidence/demo-manifest.json` declares for each
+invocation: `replace-plugin-root`, `replace-capture-root`,
+`replace-scratch-root`, `replace-home` and
+`replace-hostname`; they are applied once more to the whole
+output, prompt and final message included. The prompt's
+trailing newlines are dropped and a missing final message is
+written as `(none)`; nothing else is changed. The manifest
+also records each model, prompt and outcome and both files'
+SHA-256.
 
 ## Contributing
 
